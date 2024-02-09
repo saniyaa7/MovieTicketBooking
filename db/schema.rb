@@ -63,11 +63,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_111651) do
     t.string "payment_mode"
     t.integer "seat_book"
     t.bigint "user_id"
-    t.bigint "movie_id"
+    t.bigint "movie_show_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "seat_no", array: true
-    t.index ["movie_id"], name: "index_tickets_on_movie_id"
+    t.index ["movie_show_id"], name: "index_tickets_on_movie_show_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
@@ -85,7 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_111651) do
   add_foreign_key "movie_in_theaters", "movie_shows"
   add_foreign_key "movie_in_theaters", "theaters"
   add_foreign_key "movie_shows", "movies"
-  add_foreign_key "tickets", "movies"
+  add_foreign_key "tickets", "movie_shows"
   add_foreign_key "tickets", "users"
   add_foreign_key "users", "roles"
 end

@@ -9,10 +9,6 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.timestamps
     end
   end
-end
+end 
 
-def normalize
-  self.name = name.downcase.titleize
-  
-end
-end
+

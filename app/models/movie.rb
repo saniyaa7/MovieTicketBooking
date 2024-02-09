@@ -7,6 +7,6 @@ class Movie < ApplicationRecord
   def normalize
       self.title=title.downcase.titleize
       self.stars=stars.downcase.titleize
-      self.description= description.downcase.titleize if movie_description.present?
+      self.description= description.downcase.titleize if description.present?
   end
 end

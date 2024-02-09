@@ -1,7 +1,7 @@
 class Theater < ApplicationRecord
   validates :name, presence: true
   before_validation :normalize
-  belongs_to :movie_in_theater
+  has_many :movie_in_theaters
   private
 
   def normalize

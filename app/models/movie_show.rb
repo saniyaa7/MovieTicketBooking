@@ -2,7 +2,7 @@ class MovieShow < ApplicationRecord
   validates :language, :seat_count, :show_start_time, :show_end_time, :screen_no, presence: true
   before_validation :normalize
   has_many :tickets
-  belongs_to :movie_in_theater
+  has_many :movie_in_theaters
   belongs_to :movie
   private
 

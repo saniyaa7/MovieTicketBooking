@@ -1,4 +1,4 @@
 class MovieInTheater < ApplicationRecord
-  has_many :movie_shows
-  has_many :theaters  
+  belongs_to :movie_show
+  belongs_to :theater  
 end

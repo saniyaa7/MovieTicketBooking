@@ -1,5 +1,8 @@
 class User < ApplicationRecord
-  validates :name, :age, :phone_no, :password_digest, presence: true
+  has_secure_password
+
+  validates :name, uniqueness: true
+  validates :name, :age, :phone_no, presence: true
   validates :phone_no, length: { is: 10}
   validates :phone_no, numericality: true
   before_validation :normalize

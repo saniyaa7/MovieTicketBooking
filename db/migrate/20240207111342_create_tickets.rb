@@ -6,7 +6,7 @@ class CreateTickets < ActiveRecord::Migration[7.1]
       t.string :payment_mode
       t.integer :seat_book
       t.references :user, foreign_key: true
-      t.references :movie, foreign_key: true
+      t.references :movie_show, foreign_key: true
       t.timestamps
     end
   end
