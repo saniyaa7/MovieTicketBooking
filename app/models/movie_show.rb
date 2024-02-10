@@ -6,6 +6,17 @@ class MovieShow < ApplicationRecord
   has_many :tickets
   has_many :movie_in_theaters
   belongs_to :movie
+  def check_date
+    if self.show_start_time >= self.show_end_time
+      errors.add(:base,'The show start time must be earlier than the end time.')
+    return false
+    end
+    if self.show_end_time-self.show
+  
+      errors.add(:base,'The show start time must be earlier than the end time.')
+    return false
+
+  end
 
   private
 
