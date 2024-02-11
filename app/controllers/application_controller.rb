@@ -2,8 +2,21 @@
 
 class ApplicationController < ActionController::API
   # protect_from_forgery
-  before_action :authorized
+  # include ActionController::Helpers
+  # include ActionController::Cookies
+  # include ActionController::RequestForgeryProtection
 
+  
+
+  # def current_user
+  #   @current_user ||= User.find(payload['sub'])
+  # end
+  before_action :authorized
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: { warning: exception.message, status: 'authorization failed' }
+  end
+
+  # check_authorization
   def encode_token(payload)
     JWT.encode(payload, Rails.application.credentials[:secret_key_base])
     # This method takes a payload and returns a JWT token. The payload is a hash that contains the user's id. The JWT token is generated using the JWT.encode method, which takes the payload and the secret key base as arguments.

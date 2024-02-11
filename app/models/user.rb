@@ -2,7 +2,6 @@
 
 class User < ApplicationRecord
   has_secure_password
-
   validates :name, uniqueness: true
   validates :name, :age, :phone_no, presence: true
   validates :phone_no, length: { is: 10 }
@@ -10,7 +9,6 @@ class User < ApplicationRecord
   before_validation :normalize
   belongs_to :role
   has_many :tickets
-
   private
 
   def normalize
