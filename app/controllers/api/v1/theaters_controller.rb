@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Api
   module V1
     class TheatersController < ApplicationController
@@ -21,7 +22,7 @@ module Api
         authorize! :create, @theater
 
         if @theater.save
-          render json: @theater, status: :created,location: api_v1_theater_url( @theater)
+          render json: @theater, status: :created, location: api_v1_theater_url(@theater)
         else
           render json: @theater.errors, status: :unprocessable_entity
         end
@@ -50,9 +51,9 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_group
         @theater = Theater.find(params[:id])
-        unless @theater
-          render json: { data: 'Theater not found', status: 'failed' }
-        end
+        return if @theater
+
+        render json: { data: 'Theater not found', status: 'failed' }
       end
 
       # Only allow a list of trusted parameters through.

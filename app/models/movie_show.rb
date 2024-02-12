@@ -7,15 +7,15 @@ class MovieShow < ApplicationRecord
   has_many :movie_in_theaters
   belongs_to :movie
   def check_date
-    if self.show_start_time >= self.show_end_time
-      errors.add(:base,'The show start time must be earlier than the end time.')
+    if show_start_time >= show_end_time
+      errors.add(:base, 'The show start time must be earlier than the end time.')
       return false
     end
-    if (self.show_end_time-self.show_start_time) < 1
-      errors.add(:base,'The show must not be 1 hour ')
+    if (show_end_time - show_start_time) < 1
+      errors.add(:base, 'The show must not be 1 hour ')
       return false
     end
-    return true
+    true
   end
 
   private

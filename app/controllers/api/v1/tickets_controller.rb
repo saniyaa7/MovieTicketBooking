@@ -1,9 +1,8 @@
 # frozen_string_literal: true
+
 module Api
   module V1
-    
     class TicketsController < ApplicationController
-      
       before_action :set_group, only: %i[show update destroy]
       # load_and_authorize_resource
       def index
@@ -25,7 +24,7 @@ module Api
         @ticket = current_user.tickets.new(group_params)
         authorize! :create, @ticket
         movie_show = MovieShow.find(@ticket.movie_show_id)
-        
+
         if @ticket.calculate_and_save_price(movie_show) && @ticket.save
           debugger
           render json: @ticket, status: :created, location: api_v1_ticket_url(@ticket)
@@ -33,7 +32,7 @@ module Api
           render json: @ticket.errors, status: :unprocessable_entity
         end
       end
-      
+
       def update
         authorize! :update, @ticket
         if @ticket.update(group_params)
@@ -45,30 +44,29 @@ module Api
 
       def destroy
         authorize! :destroy, @ticket
-      
+
         if @ticket.destroy
           render json: { data: 'Ticket deleted successfully', status: 'success' }
         else
           render json: { data: 'Something went wrong', status: 'failed' }
         end
       end
-      
+
       private
 
       # Use callbacks to share common setup or constraints between actions.
       def set_group
         @ticket = Ticket.find_by(id: params[:id])
-      
-        unless @ticket
-          render json: { data: 'Ticket not found', status: 'failed' }
-        end
+
+        return if @ticket
+
+        render json: { data: 'Ticket not found', status: 'failed' }
       end
-      
 
       # Only allow a list of trusted parameters through.
       def group_params
         params.require(:ticket).permit(:payment_mode, :seat_book, :user_id, :movie_show_id,
-                                    seat_type: [])
+                                       seat_type: [])
       end
     end
   end

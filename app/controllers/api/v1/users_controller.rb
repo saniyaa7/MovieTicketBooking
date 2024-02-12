@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Api
   module V1
     class UsersController < ApplicationController
@@ -18,10 +19,10 @@ module Api
 
       def create
         @user = User.new(user_params)
-        role = Role.find(@user.role_id)
-      
+        Role.find(@user.role_id)
+
         if @user.save
-          @token = encode_token({ user_id: @user.id })  # Ensure correct format of the payload
+          @token = encode_token({ user_id: @user.id }) # Ensure correct format of the payload
           render json: {
             user: @user,
             token: @token
@@ -30,8 +31,6 @@ module Api
           render json: @user.errors, status: :unprocessable_entity
         end
       end
-      
-      
 
       def login
         @user = User.find_by!(id: login_params[:id])
@@ -58,7 +57,7 @@ module Api
       def destroy
         authorize! :destroy, @user
         if @user.destroy!
-        render json: { data: 'User deleted successfully', status: 'success' }
+          render json: { data: 'User deleted successfully', status: 'success' }
         else
           render json: { data: 'Something went wrong', status: 'failed' }
         end
@@ -69,9 +68,9 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_group
         @user = User.find(params[:id])
-        unless @user
-          render json: { data: 'Ticket not found', status: 'failed' }
-        end
+        return if @user
+
+        render json: { data: 'Ticket not found', status: 'failed' }
       end
 
       def login_params

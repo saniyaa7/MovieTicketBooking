@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Api
   module V1
     class MoviesController < ApplicationController
@@ -18,9 +19,9 @@ module Api
       def create
         @movie = Movie.new(group_params)
         authorize! :create, @movie
-    
+
         # Assuming you want to associate the movie with the current user for reference
-        
+
         if @movie.save
           render json: @movie, status: :created, location: api_v1_movie_url(@movie)
         else
@@ -50,10 +51,10 @@ module Api
 
       # Use callbacks to share common setup or constraints between actions.
       def set_group
-        @movie = Movie.find_by(id:params[:id])
-        unless @movie
-          render json: { data: 'Movie not found', status: 'failed' }
-        end
+        @movie = Movie.find_by(id: params[:id])
+        return if @movie
+
+        render json: { data: 'Movie not found', status: 'failed' }
       end
 
       # Only allow a list of trusted parameters through.

@@ -6,8 +6,6 @@ class ApplicationController < ActionController::API
   # include ActionController::Cookies
   # include ActionController::RequestForgeryProtection
 
-  
-
   # def current_user
   #   @current_user ||= User.find(payload['sub'])
   # end
@@ -25,6 +23,7 @@ class ApplicationController < ActionController::API
   def decoded_token
     header = request.headers['Authorization']
     return unless header
+
     token = header.split(' ')[1]
     begin
       JWT.decode(token, Rails.application.credentials[:secret_key_base])

@@ -4,6 +4,6 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :age, :phone_no, :role
 
   def role
-    object.role.role_name if object.role
+    object.role&.role_name
   end
 end

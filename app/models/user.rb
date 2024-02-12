@@ -9,6 +9,7 @@ class User < ApplicationRecord
   before_validation :normalize
   belongs_to :role
   has_many :tickets
+
   private
 
   def normalize
