@@ -47,7 +47,9 @@ class Ticket < ApplicationRecord
   private
 
   def normalize
-    self.payment_mode = payment_mode.downcase.titleize
+    self.payment_mode = payment_mode.to_s.downcase.titleize
+
     self.seat_type = seat_type.map(&:downcase)
   end
 end
+  

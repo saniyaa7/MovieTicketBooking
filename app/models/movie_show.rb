@@ -21,6 +21,7 @@ class MovieShow < ApplicationRecord
   private
 
   def normalize
-    self.language = language.downcase.titleize
+    self.language = language.to_s.downcase.titleize
   end
+  
 end

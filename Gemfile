@@ -29,6 +29,8 @@ gem 'puma', '>= 5.0'
 
 gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 
+# gem 'shoulda-matchers'
+
 gem 'jwt', '~> 2.5'
 
 gem 'rack-cors'
@@ -46,16 +48,24 @@ gem 'bootsnap', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 # gem "rack-cors"
-gem 'faker'
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
   gem 'factory_bot_rails'
   gem 'rspec-rails'
+  gem 'faker'
+  gem 'shoulda-matchers'
+  gem 'simplecov'
+  gem 'rails-controller-testing'
+
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-end
+end 
+
+
+gem 'byebug'

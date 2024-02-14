@@ -8,8 +8,8 @@ class Movie < ApplicationRecord
   private
 
   def normalize
-    self.title = title.downcase.titleize
-    self.stars = stars.downcase.titleize
-    self.description = description.downcase.titleize if description.present?
+    self.title = title.to_s.downcase.titleize
+    self.stars = stars.to_s.downcase.titleize
+    self.description = description.to_s.downcase.titleize if description.present?
   end
 end
