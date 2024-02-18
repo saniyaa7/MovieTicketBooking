@@ -3,7 +3,7 @@
 module Api
   module V1
     class MovieShowsController < ApplicationController
-      before_action :set_movie, only: %i[show update destroy]
+      before_action :set_movie_show, only: %i[show update destroy]
 
       def index
         authorize! :index, MovieShow
@@ -17,7 +17,7 @@ module Api
       end
 
       def create
-        @movieshow = MovieShow.new(movie_params)
+        @movieshow = MovieShow.new(movie_show_params)
         authorize! :create, @movieshow
 
         if @movieshow.check_date && @movieshow.save
@@ -29,7 +29,7 @@ module Api
 
       def update
         authorize! :update, @movieshow
-        if @movieshow.update(movie_params)
+        if @movieshow.update(movie_show_params)
           render json: @movieshow
         else
           render json: @movieshow.errors, status: :unprocessable_entity
@@ -48,14 +48,14 @@ module Api
       private
 
       # Use callbacks to share common setup or constraints between actions.
-      def set_movie
+      def set_movie_show
         @movieshow = MovieShow.find(params[:id])
         return if @movieshow
         render json: { data: 'Movie Show not found', status: 'failed' }
       end
 
       # Only allow a list of trusted parameters through.
-      def movie_params
+      def movie_show_params
         params.require(:movie_show).permit(:language, :seat_count, :show_start_time, :show_end_time, :screen_no,
                                            :movie_id, seat_type: {})
       end
