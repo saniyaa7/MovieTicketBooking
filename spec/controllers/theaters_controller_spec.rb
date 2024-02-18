@@ -29,11 +29,8 @@ RSpec.describe Api::V1::TheatersController, type: :controller do
     it "returns the theater" do
       get :show, params: { id: theater.id }
       expect(response).to have_http_status(:success)
-
-      # Update the expectation to check for the presence of specific attributes
       expected_attributes = ["name", "location", "city"]
       response_attributes = JSON.parse(response.body).keys
-
       expect(response_attributes).to include(*expected_attributes)
     end
   end
