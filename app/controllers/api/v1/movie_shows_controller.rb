@@ -50,9 +50,7 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_group
         @movieshow = MovieShow.find(params[:id])
-
         return if @movieshow
-
         render json: { data: 'Movie Show not found', status: 'failed' }
       end
 
