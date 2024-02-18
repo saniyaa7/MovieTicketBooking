@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :set_group, only: %i[show update destroy]
+      before_action :set_user, only: %i[show update destroy]
       skip_before_action :authorized, only: %i[create login]
 
       def index
@@ -65,8 +65,7 @@ module Api
 
       private
 
-      # Use callbacks to share common setup or constraints between actions.
-      def set_group
+      def set_user
         @user = User.find(params[:id])
         return if @user
 
@@ -77,7 +76,6 @@ module Api
         params.permit(:id, :password)
       end
 
-      # Only allow a list of trusted parameters through.
       def user_params
         params.require(:user).permit(:name, :age, :phone_no, :password, :role_id)
       end
