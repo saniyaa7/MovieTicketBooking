@@ -27,18 +27,18 @@ RSpec.describe Api::V1::TicketsController, type: :controller do
   end
 
   describe "POST #create" do
-    # context "with valid parameters" do
-    #   let(:valid_params) do
-    #     {
-    #       ticket: attributes_for(:ticket, payment_mode: "Cash", seat_book: 2, user_id: user.id, movie_show_id: movie_show.id,seat_type:["premium","vip"])
-    #     }
-    #   end
+    context "with valid parameters" do
+      let(:valid_params) do
+        {
+          ticket: attributes_for(:ticket, payment_mode: "Cash", seat_book: 2, user_id: user.id, movie_show_id: movie_show.id,seat_type:["premium","vip"])
+        }
+      end
 
-    #   it "creates a new ticket" do
-    #     post :create, params: valid_params
-    #     expect(response).to have_http_status(:created)
-    #   end
-    # end
+      it "creates a new ticket" do
+        post :create, params: valid_params
+        expect(response).to have_http_status(:created)
+      end
+    end
 
     context "with invalid parameters" do
       let(:invalid_params) do
@@ -66,7 +66,6 @@ RSpec.describe Api::V1::TicketsController, type: :controller do
           }
         
         }
-        byebug
         expect(response).to have_http_status(:ok)
       end
     end
@@ -79,7 +78,6 @@ RSpec.describe Api::V1::TicketsController, type: :controller do
       expect {
         delete :destroy, params: { id: ticket.id }
       }.to change(Ticket, :count).by(-1)
-
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)).to include('data', 'status')
     end
