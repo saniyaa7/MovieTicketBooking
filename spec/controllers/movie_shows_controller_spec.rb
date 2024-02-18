@@ -22,9 +22,7 @@ RSpec.describe Api::V1::MovieShowsController, type: :controller do
       end
     end
   end
-
-
-
+  
   describe "POST #create" do
     context "with valid parameters" do
       let(:valid_params) do
