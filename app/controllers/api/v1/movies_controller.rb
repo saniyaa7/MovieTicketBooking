@@ -3,10 +3,10 @@
 module Api
   module V1
     class MoviesController < ApplicationController
-      before_action :set_group, only: %i[show update destroy]
+      before_action :set_movie, only: %i[show update destroy]
 
       def index
-        authorize! :index, @movie
+        authorize! :index, Movie
         @movies = Movie.all
         render json: @movies, each_serializer: MovieSerializer
       end
@@ -17,7 +17,7 @@ module Api
       end
 
       def create
-        @movie = Movie.new(group_params)
+        @movie = Movie.new(movie_params)
         authorize! :create, @movie
 
         # Assuming you want to associate the movie with the current user for reference
@@ -31,7 +31,7 @@ module Api
 
       def update
         authorize! :update, @movie
-        if @movie.update(group_params)
+        if @movie.update(movie_params)
           render json: @movie
         else
           render json: @movie.errors, status: :unprocessable_entity
@@ -50,15 +50,15 @@ module Api
       private
 
       # Use callbacks to share common setup or constraints between actions.
-      def set_group
+      def set_movie
         @movie = Movie.find_by(id: params[:id])
-        return if @movie
-
-        render json: { data: 'Movie not found', status: 'failed' }
+        nil if @movie
+      rescue ActiveRecord::RecordNotFound
+        render json: { data: 'Movie not found', status: 'failed' }, status: :not_found
       end
 
       # Only allow a list of trusted parameters through.
-      def group_params
+      def movie_params
         params.require(:movie).permit(:title, :stars, :description)
       end
     end

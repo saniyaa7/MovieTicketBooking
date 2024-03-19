@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :set_group, only: %i[show update destroy]
+      before_action :set_user, only: %i[show update destroy]
       skip_before_action :authorized, only: %i[create login]
 
       def index
@@ -22,7 +22,7 @@ module Api
         Role.find(@user.role_id)
 
         if @user.save
-          @token = encode_token({ user_id: @user.id }) # Ensure correct format of the payload
+          @token = encode_token({ user_id: @user.id })
           render json: {
             user: @user,
             token: @token
@@ -55,22 +55,25 @@ module Api
       end
 
       def destroy
+        @user = User.find(params[:id])
         authorize! :destroy, @user
-        if @user.destroy!
+        if @user.destroy
           render json: { data: 'User deleted successfully', status: 'success' }
         else
           render json: { data: 'Something went wrong', status: 'failed' }
         end
+      rescue ActiveRecord::RecordNotFound
+        render json: { data: 'User not found', status: 'failed' }
       end
 
       private
 
       # Use callbacks to share common setup or constraints between actions.
-      def set_group
+      def set_user
         @user = User.find(params[:id])
-        return if @user
-
-        render json: { data: 'Ticket not found', status: 'failed' }
+        nil if @user
+      rescue ActiveRecord::RecordNotFound
+        render json: { data: 'User not found', status: 'failed' }, status: :not_found
       end
 
       def login_params

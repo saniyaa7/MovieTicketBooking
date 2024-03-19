@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
   # end
   before_action :authorized
   rescue_from CanCan::AccessDenied do |exception|
-    render json: { warning: exception.message, status: 'authorization failed' }
+    render json: { warning: exception.message }, status: :unauthorized
   end
 
   # check_authorization

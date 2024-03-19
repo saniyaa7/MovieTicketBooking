@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/factories/theaters.rb
 FactoryBot.define do
   factory :theater do

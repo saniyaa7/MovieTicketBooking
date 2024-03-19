@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/models/movie_show_spec.rb
 require 'rails_helper'
 
@@ -16,14 +18,12 @@ RSpec.describe MovieShow, type: :model do
     it 'is not valid without a seat count' do
       movie_show = build(:movie_show, seat_count: nil)
       expect(movie_show).to_not be_valid
+    end
 
-    end 
-     it 'is not valid without a show start time' do
-      # movie_show = build(:movie_show, show_start_time: DateTime.now())
+    it 'is not valid without a show start time' do
       movie_show = build(:movie_show, show_start_time: nil)
-      puts movie_show.attributes # Add this line to see the attributes in the console
+      puts movie_show.attributes
       expect(movie_show).to_not be_valid
-      # expect(movie_show).to_not be_valid
     end
 
     it 'is not valid without a show end time' do
@@ -41,15 +41,10 @@ RSpec.describe MovieShow, type: :model do
       expect(movie_show).to be_valid
     end
 
-    # it 'checks if show end time is not earlier than the start time' do
-    #   movie_show = build(:movie_show, show_start_time: DateTime.now, show_end_time: DateTime.now)
-    #   expect(movie_show).to_not be_valid
-    # end
-    
     it 'checks if the show duration is at least 1 hour' do
       movie_show = build(:movie_show, show_start_time: DateTime.now, show_end_time: DateTime.now + 60.minutes)
       expect(movie_show).to be_valid
-    end 
+    end
   end
 
   context 'before validation callbacks' do

@@ -5,14 +5,17 @@ class MovieShow < ApplicationRecord
   before_validation :normalize
   has_many :tickets
   has_many :movie_in_theaters
+  has_many :theaters, through: :movie_in_theaters
   belongs_to :movie
+  belongs_to :user
+
   def check_date
     if show_start_time >= show_end_time
       errors.add(:base, 'The show start time must be earlier than the end time.')
       return false
     end
     if (show_end_time - show_start_time) < 1
-      errors.add(:base, 'The show must not be 1 hour ')
+      errors.add(:base, 'The show must not be less than 1 hour ')
       return false
     end
     true
@@ -23,5 +26,4 @@ class MovieShow < ApplicationRecord
   def normalize
     self.language = language.to_s.downcase.titleize
   end
-  
 end

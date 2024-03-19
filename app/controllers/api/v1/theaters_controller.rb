@@ -3,7 +3,7 @@
 module Api
   module V1
     class TheatersController < ApplicationController
-      before_action :set_group, only: %i[show update destroy]
+      before_action :set_theater, only: %i[show update destroy]
 
       def index
         authorize! :index, Theater
@@ -18,7 +18,7 @@ module Api
       end
 
       def create
-        @theater = Theater.new(group_params)
+        @theater = Theater.new(theater_params)
         authorize! :create, @theater
 
         if @theater.save
@@ -30,7 +30,7 @@ module Api
 
       def update
         authorize! :update, @theater
-        if @theater.update(group_params)
+        if @theater.update(theater_params)
           render json: @theater
         else
           render json: @theater.errors, status: :unprocessable_entity
@@ -49,15 +49,15 @@ module Api
       private
 
       # Use callbacks to share common setup or constraints between actions.
-      def set_group
+      def set_theater
         @theater = Theater.find(params[:id])
-        return if @theater
-
-        render json: { data: 'Theater not found', status: 'failed' }
+        nil if @theater
+      rescue ActiveRecord::RecordNotFound
+        render json: { data: 'Theater not found', status: 'failed' }, status: :not_found
       end
 
       # Only allow a list of trusted parameters through.
-      def group_params
+      def theater_params
         params.require(:theater).permit(:name, :location, :city)
       end
     end

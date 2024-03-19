@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_209_121_553) do
+ActiveRecord::Schema[7.1].define(version: 20_240_217_074_138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -28,14 +28,17 @@ ActiveRecord::Schema[7.1].define(version: 20_240_209_121_553) do
   create_table 'movie_shows', force: :cascade do |t|
     t.string 'language'
     t.integer 'seat_count'
-    t.time 'show_start_time'
     t.integer 'screen_no'
     t.bigint 'movie_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.datetime 'show_start_time'
     t.datetime 'show_end_time'
-    t.jsonb 'seat_type', default: {}
+    t.jsonb 'seat_type_price', default: {}
+    t.jsonb 'seat_type_count', default: {}
+    t.bigint 'user_id'
     t.index ['movie_id'], name: 'index_movie_shows_on_movie_id'
+    t.index ['user_id'], name: 'index_movie_shows_on_user_id'
   end
 
   create_table 'movies', force: :cascade do |t|
@@ -44,10 +47,12 @@ ActiveRecord::Schema[7.1].define(version: 20_240_209_121_553) do
     t.text 'description'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.bigint 'user_id'
+    t.index ['user_id'], name: 'index_movies_on_user_id'
   end
 
   create_table 'roles', force: :cascade do |t|
-    t.string 'role_name'
+    t.string 'name'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
@@ -58,6 +63,8 @@ ActiveRecord::Schema[7.1].define(version: 20_240_209_121_553) do
     t.string 'city'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.bigint 'user_id'
+    t.index ['user_id'], name: 'index_theaters_on_user_id'
   end
 
   create_table 'tickets', force: :cascade do |t|
@@ -69,8 +76,8 @@ ActiveRecord::Schema[7.1].define(version: 20_240_209_121_553) do
     t.bigint 'movie_show_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.integer 'seat_no', array: true
     t.string 'seat_type', array: true
+    t.string 'seat_number', array: true
     t.index ['movie_show_id'], name: 'index_tickets_on_movie_show_id'
     t.index ['user_id'], name: 'index_tickets_on_user_id'
   end
@@ -89,6 +96,9 @@ ActiveRecord::Schema[7.1].define(version: 20_240_209_121_553) do
   add_foreign_key 'movie_in_theaters', 'movie_shows'
   add_foreign_key 'movie_in_theaters', 'theaters'
   add_foreign_key 'movie_shows', 'movies'
+  add_foreign_key 'movie_shows', 'users'
+  add_foreign_key 'movies', 'users'
+  add_foreign_key 'theaters', 'users'
   add_foreign_key 'tickets', 'movie_shows'
   add_foreign_key 'tickets', 'users'
   add_foreign_key 'users', 'roles'

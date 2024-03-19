@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/factories/tickets.rb
 FactoryBot.define do
   factory :ticket do
@@ -7,6 +9,5 @@ FactoryBot.define do
     association :movie_show, factory: :movie_show
     # seat_type { %w[standard premium vip].sample(Faker::Number.number(digits: 1).to_i) }
     seat_type { %w[standard premium vip].sample(Faker::Number.between(from: 1, to: 3)) }
-
   end
 end

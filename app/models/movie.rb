@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Movie < ApplicationRecord
-  validates :title, :stars, presence: true
-  has_many :movie_shows
+  validates :title, :stars, presence: true, length: { maximum: 255 }
+  validates :title, uniqueness: true
   before_validation :normalize
+  belongs_to :user
 
   private
 

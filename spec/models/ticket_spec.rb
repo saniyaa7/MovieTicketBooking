@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/models/ticket_spec.rb
 require 'rails_helper'
 
@@ -6,7 +8,6 @@ RSpec.describe Ticket, type: :model do
     let!(:ticket) { create(:ticket) }
 
     it 'should be valid user with all attributes' do
-      
       expect(ticket.valid?).to eq(true)
     end
   end
@@ -29,19 +30,17 @@ RSpec.describe Ticket, type: :model do
 
     it 'is not valid without a movie_show_id' do
       ticket = build(:ticket, movie_show_id: nil)
-    
+
       expect(ticket).to_not be_valid
     end
 
     # it 'is not valid without a seat type' do
-      
+
     #   ticket = build(:ticket, seat_type: nil)
     #   debugger
     #   expect(ticket).to_not be_valid
-      
+
     # end
-
-
 
     # it 'should validate inclusion of payment_mode in Online and Cash' do
     #   should validate_inclusion_of(:payment_mode).in_array(['Online', 'Cash'])
@@ -49,7 +48,6 @@ RSpec.describe Ticket, type: :model do
     # it 'should validate inclusion of payment_mode in Online and Cash' do
     #   should validate_inclusion_of(:payment_mode).in_array(['Online', 'Cash'])
     # end
-    
 
     # it 'should validate inclusion of seat_type in standard, premium, vip when it is an array' do
     #   should validate_inclusion_of(:seat_type)
@@ -61,41 +59,29 @@ RSpec.describe Ticket, type: :model do
     describe Ticket do
       let(:user) { create(:user) }
       let(:movie_show) { create(:movie_show) }
-      
-      it 'should validate inclusion of seat_type in standard, premium, vip when it is an array' do
-        ticket = build(:ticket, user: user, movie_show: movie_show, payment_mode: 'Online', seat_type: ['Standard'])
-        
-        expect(ticket).to be_valid
 
+      it 'should validate inclusion of seat_type in standard, premium, vip when it is an array' do
+        ticket = build(:ticket, user:, movie_show:, payment_mode: 'Online', seat_type: ['Standard'])
+
+        expect(ticket).to be_valid
       end
 
       it 'should validate inclusion of payment_mode in Online and Cash' do
-        ticket = build(:ticket, user: user, movie_show: movie_show, payment_mode: 'Cash', seat_type: ['Standard'])
+        ticket = build(:ticket, user:, movie_show:, payment_mode: 'Cash', seat_type: ['Standard'])
         expect(ticket).to be_valid
-
       end
-
     end
-    
-
   end
-  # context 'with valid parameters' do
-  #   it 'calculates and saves the price' do
-  #     ticket.calculate_and_save_price(movie_show)
-  #     expect(ticket.errors.empty?).to eq(true)
-  #     expect(ticket.price).to be > 0
-  #     expect(ticket.seat_no.length).to eq(ticket.seat_book)
-  #     expect(movie_show.seat_count).to eq(10 - ticket.seat_book)
-  #   end
-  # end
 
   describe '#calculate_and_save_price' do
     let(:user) { create(:user) }
     let(:movie_show) do
-      create(:movie_show, language: "English", seat_count: 10, show_start_time: DateTime.now + 1.hour, show_end_time: DateTime.now + 2.hours, screen_no: 2,
+      create(:movie_show, language: 'English', seat_count: 10, show_start_time: DateTime.now + 1.hour, show_end_time: DateTime.now + 2.hours, screen_no: 2,
                           seat_type: { 'standard' => 10, 'premium' => 15, 'vip' => 20 })
     end
-    let(:ticket) { build(:ticket, user: user, movie_show: movie_show, seat_book: 3, seat_type: %w[standard premium vip]) }
+    let(:ticket) do
+      build(:ticket, user:, movie_show:, seat_book: 3, seat_type: %w[standard premium vip])
+    end
 
     context 'with valid parameters' do
       it 'calculates and saves the price' do
@@ -134,7 +120,7 @@ RSpec.describe Ticket, type: :model do
     context 'when not enough seats are available' do
       it 'does not calculate and save price' do
         movie_show.update(seat_count: 2)
-        ticket.seat_type = ['standard', 'premium', 'vip']
+        ticket.seat_type = %w[standard premium vip]
         expect(ticket.calculate_and_save_price(movie_show)).to be_falsey
         expect(ticket.errors.full_messages).to include('2 seats are available')
       end
