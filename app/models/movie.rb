@@ -5,6 +5,7 @@ class Movie < ApplicationRecord
   validates :title, uniqueness: true
   before_validation :normalize
   belongs_to :user
+  has_many :movie_shows
 
   private
 

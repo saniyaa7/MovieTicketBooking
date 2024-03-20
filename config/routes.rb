@@ -17,6 +17,16 @@ Rails.application.routes.draw do
       resources :movie_in_theaters
       resources :roles
       post '/login', to: 'users#login'
+      
+      resources :theaters do
+        # Custom route for get_movie_show_by_theater_id
+        get 'movie_shows_by_theater_id', to: 'movie_shows#get_movie_show_by_theater_id'
+      end
+
+      resources :movie_shows do
+      get 'theater_by_movie_show_id', to: 'theaters#get_theater_by_movie_show_id'
+      end
+
     end
   end
 

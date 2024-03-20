@@ -13,7 +13,7 @@ module Api
 
       def show
         authorize! :show, @movieshow
-        render json: @movieshow, serializer: MovieShowSerializer
+        render json: @movieshow
       end
 
       def create
@@ -43,6 +43,12 @@ module Api
         else
           render json: { data: 'Something went wrong', status: 'failed' }
         end
+      end
+
+      def get_movie_show_by_theater_id
+        theater =   Theater.find(params[:theater_id])
+        @movieshows = theater.movie_shows
+        render json: @movieshows
       end
 
       private

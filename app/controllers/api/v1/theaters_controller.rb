@@ -46,6 +46,13 @@ module Api
         end
       end
 
+
+      def get_theater_by_movie_show_id
+        movie_show =   MovieShow.find(params[:movie_show_id])
+        @theater = movie_show.theaters
+        render json: @theater
+      end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.

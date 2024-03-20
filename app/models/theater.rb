@@ -4,6 +4,7 @@ class Theater < ApplicationRecord
   validates :name, presence: true
   before_validation :normalize
   has_many :movie_in_theaters
+  has_many :movie_shows, through: :movie_in_theaters
   belongs_to :user
 
   private

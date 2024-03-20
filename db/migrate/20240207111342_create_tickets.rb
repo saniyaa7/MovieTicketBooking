@@ -13,3 +13,5 @@ class CreateTickets < ActiveRecord::Migration[7.1]
     end
   end
 end
+
+
