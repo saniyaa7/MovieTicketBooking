@@ -65,7 +65,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def theater_params
-        params.require(:theater).permit(:name, :location, :city)
+        params.require(:theater).permit(:user_id,:name, :location, :city)
       end
     end
   end
