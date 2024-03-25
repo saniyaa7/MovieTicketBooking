@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MovieShow < ApplicationRecord
-  validates :language, :seat_count, :show_start_time, :show_end_time, :screen_no, presence: true
+  validates :language, :seat_count, :show_start_time, :show_end_time, :screen_no,:seat_type_count,:seat_type_price presence: true
   before_validation :normalize
   has_many :tickets
   has_many :movie_in_theaters

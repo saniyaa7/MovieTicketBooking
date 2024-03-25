@@ -59,7 +59,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def movie_params
-        params.require(:movie).permit(:user_id,:title, :stars, :description)
+        params.require(:movie).permit(:user_id,:title, :stars, :description,:img_url)
       end
     end
   end
