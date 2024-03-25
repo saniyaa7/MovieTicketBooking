@@ -21,7 +21,7 @@ module Api
         @movie_in_theater = MovieInTheater.new(group_params)
         authorize! :create, @movie_in_theater
         if @movie_in_theater.save
-          render json: @movie_in_theater, status: :created, location: api_v1_movie_in_theater(@movie_in_theater)
+          render json: @movie_in_theater, status: :created, location: api_v1_movie_in_theater_url(@movie_in_theater)
         else
           render json: @movie_in_theater.errors, status: :unprocessable_entity
         end
