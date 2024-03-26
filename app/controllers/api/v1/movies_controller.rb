@@ -47,15 +47,18 @@ module Api
         end
       end
 
-      private
-
-      # Use callbacks to share common setup or constraints between actions.
       def set_movie
+        authorize! :set_movies, @movie
         @movie = Movie.find_by(id: params[:id])
         nil if @movie
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Movie not found', status: 'failed' }, status: :not_found
       end
+
+      private
+
+      # Use callbacks to share common setup or constraints between actions.
+    
 
       # Only allow a list of trusted parameters through.
       def movie_params

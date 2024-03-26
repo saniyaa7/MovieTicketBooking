@@ -53,15 +53,18 @@ module Api
         render json: @theater
       end
 
-      private
-
-      # Use callbacks to share common setup or constraints between actions.
       def set_theater
+        authorize! :set_theater, @theater
         @theater = Theater.find(params[:id])
         nil if @theater
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Theater not found', status: 'failed' }, status: :not_found
       end
+
+      private
+
+      # Use callbacks to share common setup or constraints between actions.
+    
 
       # Only allow a list of trusted parameters through.
       def theater_params
