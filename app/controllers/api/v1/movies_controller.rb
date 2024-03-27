@@ -3,7 +3,7 @@
 module Api
   module V1
     class MoviesController < ApplicationController
-      before_action :set_movie, only: %i[show update destroy]
+      before_action :set_movie, only: [:show, :update, :destroy]
 
       def index
         authorize! :index, Movie
@@ -12,7 +12,7 @@ module Api
       end
 
       def show
-        authorize! :show, @movie
+        authorize! :show, Movie
         render json: @movie, serializer: MovieSerializer
       end
 
@@ -48,7 +48,7 @@ module Api
       end
 
       def set_movie
-        authorize! :set_movies, @movie
+        authorize! :set_movie, @movie
         @movie = Movie.find_by(id: params[:id])
         nil if @movie
       rescue ActiveRecord::RecordNotFound
