@@ -64,8 +64,8 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def ticket_params
-        params.require(:ticket).permit(:payment_mode, :seat_book, :user_id, :movie_show_id,
-                                       seat_type: [])
+        params.require(:ticket).permit(:payment_mode, :user_id, :movie_show_id,
+                                       seat_type: {})
       end
     end
   end

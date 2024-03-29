@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_25_150144) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_29_080225) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,13 +70,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_25_150144) do
     t.integer "price"
     t.string "transaction_id"
     t.string "payment_mode"
-    t.integer "seat_book"
     t.bigint "user_id"
     t.bigint "movie_show_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "seat_type", array: true
     t.string "seat_number", array: true
+    t.jsonb "seat_type", default: {}
     t.index ["movie_show_id"], name: "index_tickets_on_movie_show_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
