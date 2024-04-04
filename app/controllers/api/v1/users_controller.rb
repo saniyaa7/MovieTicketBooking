@@ -71,7 +71,7 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_user
         @user = User.find(params[:id])
-        nil if @user
+    
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'User not found', status: 'failed' }, status: :not_found
       end

@@ -54,9 +54,9 @@ module Api
       end
 
       def set_theater
-        authorize! :set_theater, @theater
+        authorize! :show, Theater
         @theater = Theater.find(params[:id])
-        nil if @theater
+      
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Theater not found', status: 'failed' }, status: :not_found
       end

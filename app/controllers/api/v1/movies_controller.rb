@@ -12,7 +12,8 @@ module Api
       end
 
       def show
-        authorize! :show, Movie
+        authorize! :read, Movie
+        byebug
         render json: @movie, serializer: MovieSerializer
       end
 
@@ -48,9 +49,8 @@ module Api
       end
 
       def set_movie
-        authorize! :set_movie, @movie
-        @movie = Movie.find_by(id: params[:id])
-        nil if @movie
+        authorize! :read, Movie
+        @movie = Movie.find_by!(id: params[:id])
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Movie not found', status: 'failed' }, status: :not_found
       end

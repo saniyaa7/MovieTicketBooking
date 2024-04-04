@@ -9,7 +9,7 @@ class Ability
       can :manage, :all
     else
       can :index, Movie
-      can :show,Movie
+      can :read, Movie
       can :show, MovieShow
       can :index, MovieInTheater
       can :show, MovieInTheater
@@ -21,7 +21,7 @@ class Ability
       can :index, MovieShow # Grant :index ability for MovieShow
       can :index, Theater
       can :create, Ticket, user_id: user.id
-      can :show, User, id: user.id
+    
       can :destroy, User, id: user.id
     end
   end

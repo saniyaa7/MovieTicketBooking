@@ -57,7 +57,7 @@ module Api
       def set_movie_show
         @movieshow = MovieShow.find(params[:id])
 
-        nil if @movieshow
+      
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Movie Show not found', status: 'failed' }, status: :not_found
       end

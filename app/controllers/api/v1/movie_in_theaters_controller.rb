@@ -50,7 +50,7 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_group
         @movie_in_theater = MovieInTheater.find(params[:id])
-        nil if @movie_in_theater
+      
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Movie in Theater not found', status: 'failed' }, status: :not_found
       end
