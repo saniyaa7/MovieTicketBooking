@@ -9,6 +9,7 @@ class ApplicationController < ActionController::API
   # def current_user
   #   @current_user ||= User.find(payload['sub'])
   # end
+  include Pagy::Backend
   before_action :authorized
   rescue_from CanCan::AccessDenied do |exception|
     render json: { warning: exception.message }, status: :unauthorized
@@ -36,7 +37,7 @@ class ApplicationController < ActionController::API
     return unless decoded_token
 
     user_id = decoded_token[0]['user_id']
-    @user = User.find_by(id: user_id)
+    user = User.find_by(id: user_id)
   end
 
   def authorized

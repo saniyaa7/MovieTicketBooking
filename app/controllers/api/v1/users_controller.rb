@@ -8,8 +8,17 @@ module Api
 
       def index
         authorize! :index, @user
-        @users = User.all
-        render json: @users
+
+        @users = User.all.order("#{params[:order_by]} #{params[:order_type]}")
+        @pagy, @users = pagy(@users, page: params[:page], items: params[:per_page])
+        render json: { 
+          respBody: @users,
+          metaData: {
+            current_page_count: @pagy.items,
+            current_page: @pagy.page,
+            total_count: @pagy.count,
+          }
+        }
       end
 
       def show
