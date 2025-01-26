@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class TicketSerializer < ActiveModel::Serializer
-  attributes :id, :price, :transaction_id, :payment_mode,  :seat_number, :seat_type, :screen_number,:movie_show_id,:movie_name
+  attributes :id, :price, :transaction_id, :payment_mode, :seat_number, :seat_type, :screen_number, :movie_show_id,
+             :movie_name
 
   def screen_number
     object.movie_show.screen_no

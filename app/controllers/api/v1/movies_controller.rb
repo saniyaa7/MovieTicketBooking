@@ -3,7 +3,7 @@
 module Api
   module V1
     class MoviesController < ApplicationController
-      before_action :set_movie, only: [:show, :update, :destroy]
+      before_action :set_movie, only: %i[show update destroy]
 
       def index
         authorize! :index, Movie
@@ -58,11 +58,10 @@ module Api
       private
 
       # Use callbacks to share common setup or constraints between actions.
-    
 
       # Only allow a list of trusted parameters through.
       def movie_params
-        params.require(:movie).permit(:user_id,:title, :stars, :description,:img_url)
+        params.require(:movie).permit(:user_id, :title, :stars, :description, :img_url)
       end
     end
   end

@@ -16,12 +16,12 @@ class Ability
       can :set_movie, Movie # Fix syntax for set_movie
       can :set_theater, Theater # Fix syntax for set_theater
       can :show, Theater
-      can :show, Ticket, user_id:user.id
-      
+      can :show, Ticket, user_id: user.id
+
       can :index, MovieShow # Grant :index ability for MovieShow
       can :index, Theater
       can :create, Ticket, user_id: user.id
-    
+
       can :destroy, User, id: user.id
     end
   end

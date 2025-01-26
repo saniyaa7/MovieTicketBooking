@@ -6,5 +6,4 @@ class ChangeCoulmnTypeInMovieShows < ActiveRecord::Migration[7.1]
     # remove_column :tickets, :seat_no, :string
     # add_column :tickets, :seat_number, :string, array: true
   end
-
 end
