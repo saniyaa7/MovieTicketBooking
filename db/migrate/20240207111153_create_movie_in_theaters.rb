@@ -9,7 +9,3 @@ class CreateMovieInTheaters < ActiveRecord::Migration[7.1]
     end
   end
 end
-
-movie_show.movie_in_theater.theater
-
-MovieShow.where(movie_show_id: params[:id])

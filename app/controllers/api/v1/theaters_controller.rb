@@ -46,9 +46,8 @@ module Api
         end
       end
 
-
       def get_theater_by_movie_show_id
-        movie_show =   MovieShow.find(params[:movie_show_id])
+        movie_show = MovieShow.find(params[:movie_show_id])
         @theater = movie_show.theaters
         render json: @theater
       end
@@ -56,7 +55,6 @@ module Api
       def set_theater
         authorize! :show, Theater
         @theater = Theater.find(params[:id])
-      
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Theater not found', status: 'failed' }, status: :not_found
       end
@@ -64,11 +62,10 @@ module Api
       private
 
       # Use callbacks to share common setup or constraints between actions.
-    
 
       # Only allow a list of trusted parameters through.
       def theater_params
-        params.require(:theater).permit(:user_id,:name, :location, :city)
+        params.require(:theater).permit(:user_id, :name, :location, :city)
       end
     end
   end

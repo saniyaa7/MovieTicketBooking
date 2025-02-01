@@ -56,8 +56,6 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_movie_show
         @movieshow = MovieShow.find(params[:id])
-
-      
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Movie Show not found', status: 'failed' }, status: :not_found
       end

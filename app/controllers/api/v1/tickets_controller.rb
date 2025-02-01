@@ -56,8 +56,6 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_ticket
         @ticket = Ticket.find_by(id: params[:id])
-
-      
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'Ticket not found', status: 'failed' }, status: :not_found
       end

@@ -11,12 +11,12 @@ module Api
 
         @users = User.all.order("#{params[:order_by]} #{params[:order_type]}")
         @pagy, @users = pagy(@users, page: params[:page], items: params[:per_page])
-        render json: { 
+        render json: {
           respBody: @users,
           metaData: {
             current_page_count: @pagy.items,
             current_page: @pagy.page,
-            total_count: @pagy.count,
+            total_count: @pagy.count
           }
         }
       end
@@ -80,7 +80,6 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_user
         @user = User.find(params[:id])
-    
       rescue ActiveRecord::RecordNotFound
         render json: { data: 'User not found', status: 'failed' }, status: :not_found
       end

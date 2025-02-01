@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Ticket < ApplicationRecord
-  validates :payment_mode,  :user_id, :movie_show_id, :seat_type, presence: true
+  validates :payment_mode, :user_id, :movie_show_id, :seat_type, presence: true
   belongs_to :user
   belongs_to :movie_show
   validates :payment_mode, inclusion: { in: %w[Online Cash],
@@ -9,7 +9,7 @@ class Ticket < ApplicationRecord
   # validates :seat_type, inclusion: { in: %w[standard premium vip],
   #                                    message: '%<value>s is not a valid seat_type' }, allow_blank: true, if: lambda {
   #                                                                                                              seat_type.present? && seat_type.is_a?(Array)
-    #                                                                                                        #  }
+  #                                                                                                        #  }
   validate  :check_show_not_started
 
   before_validation :normalize
@@ -21,14 +21,14 @@ class Ticket < ApplicationRecord
     total_price = 0
     seat_no = []
 
-    seat_type.each do |type,count|
-      return false unless validate_seat_availability(type,count, movie_show)
+    seat_type.each do |type, count|
+      return false unless validate_seat_availability(type, count, movie_show)
 
       total_price += movie_show.seat_type_price[type]
-      temp=  movie_show.seat_type_count[type] 
-      for i in 1..count
+      temp = movie_show.seat_type_count[type]
+      (1..count).each do |_|
         seat_no << "#{type}_#{temp}"
-        temp -=1
+        temp -= 1
       end
       movie_show.seat_type_count[type] -= count
     end
@@ -49,13 +49,12 @@ class Ticket < ApplicationRecord
     errors.add(:base, 'Show Already Started') if movie_show.show_start_time <= DateTime.now
   end
 
-  def validate_seat_availability(type,count, movie_show)
-  
+  def validate_seat_availability(type, count, movie_show)
     if movie_show.seat_type_count[type].to_i.zero?
       errors.add(:base, "No more #{type.capitalize} seats available")
       return false
     elsif movie_show.seat_type_count[type] < count
-    
+
       errors.add(:base,
                  "Not enough #{type.capitalize} seats available. You can book only #{movie_show.seat_type_count[type]} seats of #{type.capitalize}")
       return false
