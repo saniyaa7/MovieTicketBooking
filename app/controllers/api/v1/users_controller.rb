@@ -3,22 +3,19 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      # before_action :set_user, only: %i[show update destroy]
-      # skip_before_action :authorized, only: %i[create login]
-
       def index
         authorize! :index, current_user
         render json: User.all
-        # @users = User.all.order("#{params[:order_by]} #{params[:order_type]}")
-        # @pagy, @users = pagy(@users, page: params[:page], items: params[:per_page])
-        # render json: {
-        #   respBody: @users,
-        #   metaData: {
-        #     current_page_count: @pagy.items,
-        #     current_page: @pagy.page,
-        #     total_count: @pagy.count
-        #   }
-        # }
+        @users = User.all.order("#{params[:order_by]} #{params[:order_type]}")
+        @pagy, @users = pagy(@users, page: params[:page], items: params[:per_page])
+        render json: {
+          respBody: @users,
+          metaData: {
+            current_page_count: @pagy.items,
+            current_page: @pagy.page,
+            total_count: @pagy.count
+          }
+        }
       end
 
       def show
