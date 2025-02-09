@@ -15,7 +15,6 @@ class Ticket < ApplicationRecord
   before_validation :normalize
 
   def calculate_and_save_price(movie_show)
-    debugger
     return false unless valid?
 
     total_price = 0

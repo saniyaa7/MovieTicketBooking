@@ -1,12 +1,19 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_secure_password
+  # Devise modules
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable, :jwt_authenticatable, jwt_revocation_strategy: self
+
+  # Other validations
   validates :name, :age, :phone_no, presence: true
+  validates :email, presence: true, uniqueness: true
   validates :phone_no, length: { is: 10 }
-  validates :password_digest, presence: true, length: { minimum: 8 }
   validates :phone_no, numericality: { only_integer: true }
   before_validation :normalize
+
+  # Associations
   belongs_to :role
   has_many :movie_shows
   has_many :movies

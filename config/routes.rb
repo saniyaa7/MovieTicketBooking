@@ -16,7 +16,6 @@ Rails.application.routes.draw do
       resources :tickets
       resources :movie_in_theaters
       resources :roles
-      post '/login', to: 'users#login'
 
       resources :theaters do
         # Custom route for get_movie_show_by_theater_id
@@ -28,7 +27,13 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  # Defines the root path route ("/")
-  # root "posts#index"
+  devise_for :users, path: '', path_names: {
+                                 sign_in: 'auth/login',
+                                 sign_out: 'auth/logout',
+                                 registration: 'auth/signup'
+                               },
+                     controllers: {
+                       sessions: 'users/sessions',
+                       registrations: 'users/registrations'
+                     }
 end
