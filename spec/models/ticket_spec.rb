@@ -37,7 +37,6 @@ RSpec.describe Ticket, type: :model do
     # it 'is not valid without a seat type' do
 
     #   ticket = build(:ticket, seat_type: nil)
-    #   debugger
     #   expect(ticket).to_not be_valid
 
     # end

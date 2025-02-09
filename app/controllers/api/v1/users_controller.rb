@@ -3,55 +3,27 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :set_user, only: %i[show update destroy]
-      skip_before_action :authorized, only: %i[create login]
+      # before_action :set_user, only: %i[show update destroy]
+      # skip_before_action :authorized, only: %i[create login]
 
       def index
-        authorize! :index, @user
-
-        @users = User.all.order("#{params[:order_by]} #{params[:order_type]}")
-        @pagy, @users = pagy(@users, page: params[:page], items: params[:per_page])
-        render json: {
-          respBody: @users,
-          metaData: {
-            current_page_count: @pagy.items,
-            current_page: @pagy.page,
-            total_count: @pagy.count
-          }
-        }
+        authorize! :index, current_user
+        render json: User.all
+        # @users = User.all.order("#{params[:order_by]} #{params[:order_type]}")
+        # @pagy, @users = pagy(@users, page: params[:page], items: params[:per_page])
+        # render json: {
+        #   respBody: @users,
+        #   metaData: {
+        #     current_page_count: @pagy.items,
+        #     current_page: @pagy.page,
+        #     total_count: @pagy.count
+        #   }
+        # }
       end
 
       def show
         authorize! :show, @user
         render json: @user
-      end
-
-      def create
-        @user = User.new(user_params)
-        Role.find(@user.role_id)
-
-        if @user.save
-          @token = encode_token({ user_id: @user.id })
-          render json: {
-            user: @user,
-            token: @token
-          }, status: :created
-        else
-          render json: @user.errors, status: :unprocessable_entity
-        end
-      end
-
-      def login
-        @user = User.find_by!(id: login_params[:id])
-        if @user.authenticate(login_params[:password])
-          @token = encode_token(user_id: @user.id)
-          render json: {
-            user: @user,
-            token: @token
-          }, status: :accepted
-        else
-          render json: { message: 'Incorrect password' }, status: :unauthorized
-        end
       end
 
       def update

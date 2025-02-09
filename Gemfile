@@ -69,3 +69,7 @@ group :development do
 end
 
 gem 'byebug'
+
+# devise gems
+gem 'devise'
+gem 'devise-jwt'
