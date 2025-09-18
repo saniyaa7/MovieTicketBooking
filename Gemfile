@@ -34,7 +34,7 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem 'jwt', '~> 2.5'
 
 gem 'rack-cors'
-
+gem 'dotenv-rails', '~> 3.1'
 gem 'active_model_serializers', '~> 0.10.12'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
